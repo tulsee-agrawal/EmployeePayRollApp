@@ -3,81 +3,69 @@ package com.exception;
 import java.util.regex.Pattern;
 
 /**
- * Validator class provides static validation methods
- * for employee data such as email, phone number, and employee ID.
- * 
- * Uses Regular Expressions (Regex) to validate input formats.
+ * Validator (UC6) — centralizes input checks with clear error messages.
+ *
+ * Validations:
+ *  - Email format (generic RFC-like)
+ *  - Phone number (India: 10 digits, starts with 6-9)
+ *  - Employee ID ("EMP-XXXX")
+ *  - Password strength (min 8, upper, lower, digit, special)
+ *
+ * Throws specific exceptions for precise error handling.
  */
 public class Validator {
 
-    /**
-     * Validates the email format.
-     * 
-     * Example valid emails:
-     * user@gmail.com
-     * employee123@company.org
-     * 
-     * @param email the email address to validate
-     * @throws ValidationException if the email format is invalid
-     */
-    public static void validateEmail(String email) throws ValidationException {
+    // Patterns (compiled once)
+    private static final Pattern EMAIL =
+            Pattern.compile("^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$");
 
-        // Regex pattern for validating email format
-        String emailPattern = "^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$";
+    private static final Pattern IN_PHONE =
+            Pattern.compile("^[6-9][0-9]{9}$");
 
-        // Pattern.matches returns true if email matches regex
-        if (!Pattern.matches(emailPattern, email)) {
-            throw new ValidationException("Invalid email format");
+    private static final Pattern EMP_ID =
+            Pattern.compile("^EMP-[0-9]{4}$");
+
+    // Password: min 8, at least 1 upper, 1 lower, 1 digit, 1 special
+    private static final Pattern STRONG_PWD =
+            Pattern.compile("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=!_()*\\-]).{8,}$");
+
+    /** Email check — throws EmailValidationException on failure. */
+    public static void validateEmail(String email) throws EmailValidationException {
+        if (email == null || email.isBlank() || !EMAIL.matcher(email).matches()) {
+            throw new EmailValidationException("Invalid email format. Example: user@example.com");
+        }
+    }
+
+    /** Phone check — throws PhoneValidationException on failure. */
+    public static void validatePhone(String phone) throws PhoneValidationException {
+        if (phone == null || !IN_PHONE.matcher(phone).matches()) {
+            throw new PhoneValidationException("Invalid phone number. Expect 10 digits starting with 6-9.");
+        }
+    }
+
+    /** Employee ID check — throws EmpIdValidationException on failure. */
+    public static void validateEmpID(String empId) throws EmpIdValidationException {
+        if (empId == null || !EMP_ID.matcher(empId).matches()) {
+            throw new EmpIdValidationException("Invalid employee ID. Expected format: EMP-0000");
+        }
+    }
+
+    /** Password strength check — throws PasswordValidationException on failure. */
+    public static void validatePassword(String password) throws PasswordValidationException {
+        if (password == null || !STRONG_PWD.matcher(password).matches()) {
+            throw new PasswordValidationException("Weak password. Min 8 chars with at least 1 uppercase, 1 lowercase, 1 digit, 1 special.");
         }
     }
 
     /**
-     * Validates the phone number format.
-     * 
-     * Rules:
-     * - Must be 10 digits
-     * - Must start with 6, 7, 8, or 9
-     * 
-     * Example valid numbers:
-     * 9876543210
-     * 9123456789
-     * 
-     * @param phone the phone number to validate
-     * @throws ValidationException if phone format is invalid
+     * Combined validation (optional convenience): validates all fields.
+     * Any failure throws the specific exception first encountered.
      */
-    public static void validatePhone(String phone) throws ValidationException {
-
-        // Regex pattern for Indian phone numbers
-        String phonePattern = "^[6-9][0-9]{9}$";
-
-        if (!Pattern.matches(phonePattern, phone)) {
-            throw new ValidationException("Invalid phone number format");
-        }
-    }
-
-    /**
-     * Validates the employee ID format.
-     * 
-     * Required format:
-     * EMP-XXXX
-     * 
-     * Where XXXX is a 4-digit number.
-     * 
-     * Example valid IDs:
-     * EMP-1001
-     * EMP-2345
-     * 
-     * @param empId the employee ID to validate
-     * @throws ValidationException if the ID format is invalid
-     */
-    public static void validateEmpID(String empId) throws ValidationException {
-
-        // Regex pattern for employee ID
-        String empIdPattern = "^EMP-[0-9]{4}$";
-
-        if (!Pattern.matches(empIdPattern, empId)) {
-            throw new ValidationException("Invalid empId format");
-  
-        }
+    public static void validateAll(String email, String phone, String empId, String password)
+            throws ValidationException {
+        validateEmail(email);
+        validatePhone(phone);
+        validateEmpID(empId);
+        validatePassword(password);
     }
 }
