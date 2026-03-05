@@ -3,22 +3,28 @@
  * EmployeeRegistrationApp
  * 
  * This is the main application class that demonstrates
- * Use Case 1: Employee Registration.
+ * Use Case 2: EMPLOYEE AUTHENTICATION & LOGIN
  * 
- * Responsibilities:
- * - Collect employee details from the user
- * - Validate inputs using the Validator class
- * - Create UserAccount and Employee objects
- * - Persist employee data to a file
- * - Handle validation and IO exceptions
+ * Goal of this use case:
+ * - Introduce inheritance and polymorphism
+ * - Show how different user types share common behaviour
+ * - Demonstrate a simple authentication flow
+ * 
+ * New ideas introduced here:
+ * - Abstract class
+ * - Method overriding
+ * - Runtime decision-making 
  * 
  * @author Tulsee Agrawal
- * @version 1.0
+ * @version 2.0
  */
 
 package com.app;
 import com.exception.*;
+import com.auth.*;
+import com.session.*;
 import com.model.*;
+
 import java.util.*;
 import java.io.*;
 
@@ -78,10 +84,20 @@ public class App {
 		catch (IOException e) {
 			System.out.println("\nError saving info");
 		}
+		System.out.println("    USE CASE-2 USER AUTHENTICATION AND LOGIN   ");
+		AuthenticationService auth = new AuthenticationService();
+	       auth.registerUser();   // user input registration
+	       Session session = auth.login();  // login
+	       if(session != null) {
+	           System.out.println("\n" + session);
+	           if(!session.isExpired()) {
+	               System.out.println("Session active and valid.");
+	           }
+	       }
 
-		// Finally block always executes to release resources
-		finally {
-			sc.close(); // Close scanner to avoid resource leaks
-		}
+		
+		
+		sc.close(); 
+		
 	}
 }

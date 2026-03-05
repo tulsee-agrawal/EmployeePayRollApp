@@ -14,4 +14,28 @@ Phone       : 8917341913
 Username    : AB_AL
 
 
+Data persisted in file: employee_data.txtEmployee Registered Successfully:
+Employee ID : EMP-1001
+Name        : AB
+Email       : AB@G.COM
+Phone       : 8917341815
+Username    : AB
+
+
+Data persisted in file: employee_data.txtEmployee Registered Successfully:
+Employee ID : EMP-1002
+Name        : TA
+Email       : TA@G.COM
+Phone       : 8917341513
+Username    : TA
+
+
+Data persisted in file: employee_data.txtEmployee Registered Successfully:
+Employee ID : EMP-1001
+Name        : TA
+Email       : TA@G.COM
+Phone       : 8917341321
+Username    : TA
+
+
 Data persisted in file: employee_data.txt
