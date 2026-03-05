@@ -1,0 +1,5 @@
+Payslip
+Emp ID    : EMP-1001
+Employee  : Tulsee Agrawal
+Month     : JAN-2026
+Net Pay   : 45000.0
