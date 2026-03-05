@@ -1,0 +1,17 @@
+Employee Registered Successfully:
+Employee ID : EMP-0001
+Name        : Ab
+Email       : ab@gmail.com
+Phone       : 8917341912
+Username    : ab@bl
+
+
+Data persisted in file: employee_data.txtEmployee Registered Successfully:
+Employee ID : EMP-1001
+Name        : AB
+Email       : AB@GMAIL.COM
+Phone       : 8917341913
+Username    : AB_AL
+
+
+Data persisted in file: employee_data.txt
