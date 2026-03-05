@@ -1,22 +1,16 @@
-
 /**
  * EmployeeRegistrationApp
  * 
- * This is the main application class that demonstrates
- * Use Case 2: EMPLOYEE AUTHENTICATION & LOGIN
- * 
- * Goal of this use case:
- * - Introduce inheritance and polymorphism
- * - Show how different user types share common behaviour
- * - Demonstrate a simple authentication flow
- * 
- * New ideas introduced here:
- * - Abstract class
- * - Method overriding
- * - Runtime decision-making 
+ *Entry point for payslip generation.
+ *
+ *Execution flow:
+ * - capture employee details
+ * - capture salary components
+ * - generate payslip via service
+ * - display formatted payslip
  * 
  * @author Tulsee Agrawal
- * @version 2.0
+ * @version 3.0
  */
 
 package com.app;
@@ -24,13 +18,14 @@ import com.exception.*;
 import com.auth.*;
 import com.session.*;
 import com.model.*;
-
+import com.service.*;
 import java.util.*;
 import java.io.*;
 
 public class App {
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
+		Employee emp = null; 
 		System.out.println(" USE CASE 1 : EMPLOYEE REGISTRATION  ");
 		try {
 
@@ -62,7 +57,7 @@ public class App {
 			UserAccount account = new UserAccount(username, password);
 
 			// Create an Employee object using the provided details
-			Employee emp = new Employee(empID, name, email, phone, account);
+			emp = new Employee(empID, name, email, phone, account);
 
 			// Persist employee information to file (employee_data.txt)
 			emp.persist();
@@ -95,7 +90,31 @@ public class App {
 	           }
 	       }
 
-		
+	       // ==========================
+	        // USE CASE 3 - PAYSLIP
+	        // ==========================
+	        System.out.println("\n=== USE CASE 3: PAYSLIP GENERATION ===");
+
+	        System.out.print("Enter Month: ");
+	        String month = sc.nextLine();
+
+	        System.out.print("Enter Basic Salary: ");
+	        double basic = sc.nextDouble();
+
+	        System.out.print("Enter HRA: ");
+	        double hra = sc.nextDouble();
+
+	        System.out.print("Enter DA: ");
+	        double da = sc.nextDouble();
+
+	        System.out.print("Enter Allowances: ");
+	        double allowances = sc.nextDouble();
+
+	        PayrollService service = new PayrollService();
+
+	        Payslip payslip = service.generatePayslip(emp, month, basic, hra, da, allowances);
+
+	        System.out.println(payslip);
 		
 		sc.close(); 
 		
